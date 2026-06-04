@@ -1,0 +1,201 @@
+@import './variables.css';
+
+body {
+  transition: var(--transition);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-header);
+  margin-bottom: 0.5em;
+  color: inherit;
+}
+h1 {
+  font-size: 3.05rem;
+  line-height: 110%;
+  letter-spacing: -0.02rem;
+}
+h2 {
+  font-size: 2.44rem;
+  line-height: 110%;
+  letter-spacing: -0.02rem;
+}
+h3 {
+  font-size: 1.95rem;
+  line-height: 130%;
+  letter-spacing: -0.015rem;
+}
+h4 {
+  font-size: 1.56rem;
+  line-height: 130%;
+  letter-spacing: -0.015rem;
+}
+h5 {
+  font-size: 1.25rem;
+  line-height: 150%;
+  letter-spacing: -0.05rem;
+}
+h6 {
+  font-size: 1.12rem;
+  line-height: 150%;
+}
+@media (max-width: 700px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.8rem;
+  }
+}
+
+p {
+  font-size: 1rem;
+  line-height: 150%;
+  letter-spacing: 0.01rem;
+  margin-bottom: 1em;
+  color: var(--color-text-secondary);
+}
+p.caption {
+  line-height: 160%;
+}
+
+a {
+  text-decoration: underline;
+  transition: var(--transition);
+  outline: none;
+  color: var(--color-text);
+}
+a:hover,
+a:focus {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+a.button {
+  font-family: inherit;
+  font-size: 1em;
+  padding: 0.6em 1.2em;
+  border-radius: 0.375em;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+  text-decoration: none;
+}
+.button.inverted {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  border: 1px solid var(--color-text);
+}
+.button:hover,
+.button:focus {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+.button.disabled {
+  background-color: rgb(var(--gray-rgb));
+  pointer-events: none;
+  cursor: not-allowed;
+  color: rgba(var(--black-rgb), 0.6);
+  border: none;
+}
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  font-family: inherit;
+  font-size: 1em;
+  padding: 0.6em 1.2em;
+  border-radius: 0.375em;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+}
+button.inverted {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  border: 1px solid var(--color-text);
+}
+button:hover,
+button:focus,
+input[type="button"]:hover,
+input[type="button"]:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus,
+input[type="reset"]:hover,
+input[type="reset"]:focus {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+ul,
+ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+li {
+  margin-bottom: 0.5em;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: 1em;
+  padding: 0.5em;
+  border-radius: 0.25em;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  color: inherit;
+  transition: var(--transition);
+}
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-bg);
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-bg);
+  outline-offset: 2px;
+}
+
+/* Utility classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  &.p-0 {
+    padding: 0;
+  }
+}
+.text-center {
+  text-align: center;
+}
+.mt-1 {
+  margin-top: 1rem;
+}
+.mb-1 {
+  margin-bottom: 1rem;
+}
+.pt-1 {
+  padding-top: 1rem;
+}
+.pb-1 {
+  padding-bottom: 1rem;
+}

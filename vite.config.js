@@ -1,20 +1,16 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import { fileURLToPath, URL } from 'node:url'
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  build: {
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, "index.html"),
-        "test-page": resolve(__dirname, "test-page/index.html"),
-        boxRoulette: resolve(__dirname, "boxRoulette/index.html"),
-      },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-});
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
+})

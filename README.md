@@ -1,5 +1,5 @@
-# Jet's Personal Website
+# [jetysalina.com](https://jetysalina.com)
 
-Using Vite and Vue 3
-
-[jetysalina.com](https://jetysalina.com)
+tech:
+- build tool: vite
+- frontend framework: vuejs
