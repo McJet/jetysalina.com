@@ -1,0 +1,5 @@
+export { default as LandingView } from './views/LandingView.vue'
+export { default as HeroSection } from './components/HeroSection.vue'
+export { default as ProjectGrid } from './components/ProjectGrid.vue'
+export { default as ProjectCard } from './components/ProjectCard.vue'
+export { projects } from './data/projects.js'
