@@ -106,7 +106,7 @@ export function selectBox(state, boxId) {
     }
 }
 /**
- * @param { GameState }
+ * @param { GameState } state
  * @returns { GameState }
  */
 export function cashOut(state) {
