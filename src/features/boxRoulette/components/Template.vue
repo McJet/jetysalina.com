@@ -1,11 +1,17 @@
-<script setup>
-import { ref } from "vue";
-</script>
-
 <template>
-  <div class="template">
-    <h1>Template</h1>
+  <div>
+
   </div>
 </template>
 
-<style scoped></style>
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useGameStore } from '../stores/useGameStore'
+
+const store = useGameStore()
+const {  } = storeToRefs(store)
+</script>
+
+<style scoped>
+
+</style>
