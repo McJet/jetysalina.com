@@ -7,24 +7,22 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-const score = 1235356
-const round = 123
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import { useGameStore } from "../stores/useGameStore";
 
-const scoreString = computed(() => {
-  return score.toLocaleString('en-US')
-})
-const roundString = computed(() => {
-  return round.toLocaleString('en-US')
-})
+const store = useGameStore();
+const { currentScore, roundNumber } = storeToRefs(store);
 
+const scoreString = computed(() => currentScore.value.toLocaleString("en-US"));
+const roundString = computed(() => roundNumber.value.toLocaleString("en-US"));
 </script>
 
 <style scoped>
 .score-display {
   container: container / inline-size;
   max-width: 30rem;
-  margin: 0 auto .5rem;
+  margin: 0 auto 0.5rem;
   display: grid;
   grid-template-columns: 1fr 2px 1fr;
   gap: var(--space-sm);

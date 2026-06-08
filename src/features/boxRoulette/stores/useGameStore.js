@@ -32,6 +32,7 @@ export const useGameStore = defineStore("game", {
     roundNumber: (state) => state.game.roundNumber,
     canCashOut: (state) =>
       state.game.currentScore > 0 && state.game.phase === "playing",
+    isIdle: (state) => state.game.phase === "idle",
     isPlaying: (state) => state.game.phase === "playing",
     isLost: (state) => state.game.phase === "lost",
     isCashOut: (state) => state.game.phase === "cashed_out",

@@ -1,15 +1,22 @@
 <template>
   <div class="container">
-    <div class="box-item" :class="{ revealed: props.isRevealed }">
-      <slot></slot>
+    <div
+      class="box-item"
+      :class="{ revealed: props.box.isRevealed }"
+      @click="handleBoxClick"
+    >
+      {{ props.box.isRevealed ? props.box.points : "?" }}
     </div>
   </div>
 </template>
 
 <script setup>
-const props = defineProps(
-  ["isRevealed"]
-)
+const props = defineProps(["box"]);
+const emit = defineEmits(["select"]);
+
+function handleBoxClick() {
+  emit("select");
+}
 </script>
 
 <style scoped>
@@ -22,7 +29,7 @@ const props = defineProps(
   height: auto;
   aspect-ratio: 1;
   background-color: var(--color-box);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -39,7 +46,7 @@ const props = defineProps(
 
 .box-item:hover {
   background-color: var(--color-box-hover);
-  filter: drop-shadow(0 0 .25rem var(--color-box-hover));
+  filter: drop-shadow(0 0 0.25rem var(--color-box-hover));
   cursor: pointer;
 }
 
