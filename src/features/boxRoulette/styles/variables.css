@@ -40,7 +40,7 @@
 }
 @font-face {
   font-family: "Lato";
-  src: url("/Lato-Regular.ttf") format("truetype");
+  src: url("/features/boxRoulette/Lato-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
