@@ -8,14 +8,51 @@
 
 body {
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
 }
 
 img,
 picture,
 video,
-canvas,
-svg {
+canvas {
   vertical-align: middle;
   max-width: 100%;
   height: auto;
+}
+
+svg {
+  vertical-align: middle;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

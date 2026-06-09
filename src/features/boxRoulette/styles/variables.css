@@ -1,0 +1,47 @@
+.view {
+  /* Base */
+  --color-background: #0c0d06;
+  --color-surface: #1a1c10; /* slightly lighter than background, for cards/panels */
+
+  /* Text */
+  --color-text: #e8e1d5;
+  --color-text-muted: #9a9488; /* muted version of text, for secondary info */
+
+  /* Box */
+  --color-box: #2a2c1e; /* dark but distinct from background */
+  --color-box-hover: #3a3d2a; /* subtle lift on hover */
+  --color-box-revealed: #1a1c10; /* flattens when revealed, game is "over" for that box */
+
+  /* Accents */
+  --color-success: #007044; /* correct - non-zero box selected */
+  --color-success-muted: #004d30; /* background tint for success states */
+  --color-danger: #8b1a1a; /* zero box - loss */
+  --color-danger-muted: #5a0f0f; /* background tint for loss state */
+  --color-gold: #dfb42b; /* highest value box highlight */
+  --color-gold-muted: #a07d10; /* dimmer gold for secondary use */
+
+  /* UI */
+  --color-border: #2a2c1e;
+  --color-button: #007044;
+  --color-button-hover: #008a52;
+
+  /* Spacing */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-2xl: 3rem; /* 48px */
+
+  font-family: "Lato", sans-serif;
+}
+.view * {
+  transition: all 0.2s ease-out;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/Lato-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
