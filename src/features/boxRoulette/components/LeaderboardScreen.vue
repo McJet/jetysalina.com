@@ -52,8 +52,48 @@ li {
   list-style-type: none;
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: baseline;
   height: 2.5rem;
+  padding: var(--space-sm);
+  transition: all 1s ease;
+}
+
+li:nth-child(even) {
+  background-color: var(--color-surface);
+}
+
+li:first-child {
+  background: linear-gradient(315deg, var(--color-gold-muted), var(--color-gold));
+  border-radius: .5rem;
+  color: var(--color-background);
+
+  .date {
+    color: var(--color-surface)
+  }
+}
+
+li:nth-child(-n + 3) {
+  margin-bottom: var(--space-xs)
+}
+
+li:nth-child(2) {
+  background: linear-gradient(315deg, var(--color-silver-muted), var(--color-silver));
+  border-radius: .5rem;
+  color: var(--color-background);
+
+  .date {
+    color: var(--color-surface)
+  }
+}
+
+li:nth-child(3) {
+  background: linear-gradient(315deg, var(--color-bronze-muted), var(--color-bronze));
+  border-radius: .5rem;
+  color: var(--color-background);
+
+  .date {
+    color: var(--color-surface)
+  }
 }
 
 .score {

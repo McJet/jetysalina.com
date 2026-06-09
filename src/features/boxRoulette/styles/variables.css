@@ -19,6 +19,10 @@
   --color-danger-muted: #5a0f0f; /* background tint for loss state */
   --color-gold: #dfb42b; /* highest value box highlight */
   --color-gold-muted: #a07d10; /* dimmer gold for secondary use */
+  --color-silver: #9aa0a6;
+  --color-silver-muted: #5a6368;
+  --color-bronze: #a0632a;
+  --color-bronze-muted: #6b3d18;
 
   /* UI */
   --color-border: #2a2c1e;
