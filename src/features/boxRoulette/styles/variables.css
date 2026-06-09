@@ -33,16 +33,15 @@
   --space-xl: 2rem; /* 32px */
   --space-2xl: 3rem; /* 48px */
 
-  @font-face {
-    font-family: "Lato";
-    src: url("/Lato-Regular.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-
   font-family: "Lato", sans-serif;
 }
 .view * {
   transition: all 0.2s ease-out;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/Lato-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
