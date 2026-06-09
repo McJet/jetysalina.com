@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .leaderboard {
   min-height: 30rem;
-  max-width: 17rem;
+  max-width: 20rem;
   margin: 0 auto;
 }
 
@@ -52,7 +52,7 @@ li {
   list-style-type: none;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: end;
   height: 2.5rem;
 }
 
