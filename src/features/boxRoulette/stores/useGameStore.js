@@ -5,6 +5,7 @@ import {
   selectBox,
   cashOut,
   resetGame,
+  advanceRound,
 } from "../game/engine";
 
 const STORAGE_KEY = "boxRoulette_leaderboard";
@@ -30,10 +31,12 @@ export const useGameStore = defineStore("game", {
     currentScore: (state) => state.game.currentScore,
     boxes: (state) => state.game.boxes,
     roundNumber: (state) => state.game.roundNumber,
+    selectedBoxId: (state) => state.game.selectedBoxId,
     canCashOut: (state) =>
       state.game.currentScore > 0 && state.game.phase === "playing",
     isIdle: (state) => state.game.phase === "idle",
     isPlaying: (state) => state.game.phase === "playing",
+    isRevealing: (state) => state.game.phase === "revealing",
     isLost: (state) => state.game.phase === "lost",
     isCashOut: (state) => state.game.phase === "cashed_out",
   },
@@ -44,17 +47,23 @@ export const useGameStore = defineStore("game", {
     selectBox(boxId) {
       this.game = selectBox(this.game, boxId);
     },
+    advanceRound() {
+      this.game = advanceRound(this.game);
+    },
     cashOut() {
       this.game = cashOut(this.game);
 
-      const scoreEntry = {
-        score: this.game.currentScore,
-        date: new Date().toISOString(),
-      };
-      const allScores = [...this.leaderboard, scoreEntry];
-      allScores.sort((a, b) => b.score - a.score);
-      this.leaderboard = allScores.slice(0, MAX_ENTRIES);
-      saveLeaderboard(this.leaderboard);
+      if (this.game.phase === "cashed_out") {
+        const scoreEntry = {
+          score: this.game.currentScore,
+          rounds: this.game.roundNumber,
+          date: new Date().toISOString(),
+        };
+        const allScores = [...this.leaderboard, scoreEntry];
+        allScores.sort((a, b) => b.score - a.score);
+        this.leaderboard = allScores.slice(0, MAX_ENTRIES);
+        saveLeaderboard(this.leaderboard);
+      }
     },
     resetGame() {
       this.game = resetGame();

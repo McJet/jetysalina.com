@@ -2,24 +2,27 @@
   <div class="view">
     <div class="inner-view">
       <div class="main-container">
-        <ScoreDisplay />
-        <BoxGrid />
+        <StartScreen v-if="store.isIdle" />
+        <GameScreen v-else-if="store.isPlaying || store.isRevealing" />
+        <LostScreen v-else-if="store.isLost" />
+        <CashOutScreen v-else-if="store.isCashOut" />
       </div>
       <div class="leaderboard-container">
-        leaderboard
+        <LeaderboardScreen />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-// import { storeToRefs } from 'pinia'
-// import { useGameStore } from '../stores/useGameStore'
-import BoxGrid from '../components/BoxGrid.vue';
-import ScoreDisplay from '../components/ScoreDisplay.vue';
+import { useGameStore } from '../stores/useGameStore'
+import StartScreen from '../components/StartScreen.vue';
+import GameScreen from '../components/GameScreen.vue';
+import LostScreen from '../components/LostScreen.vue';
+import CashOutScreen from '../components/CashOutScreen.vue';
+import LeaderboardScreen from '../components/LeaderboardScreen.vue';
 
-// const store = useGameStore()
-// const {  } = storeToRefs(store)
+const store = useGameStore()
 </script>
 
 <style scoped>
@@ -54,8 +57,4 @@ import ScoreDisplay from '../components/ScoreDisplay.vue';
     grid-template-rows: 1fr;
   }
 }
-
-.main-container {}
-
-.leaderboard-container {}
 </style>

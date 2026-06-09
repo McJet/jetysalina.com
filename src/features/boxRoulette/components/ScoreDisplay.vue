@@ -1,7 +1,11 @@
 <template>
   <div class="score-display">
     <p class="start">{{ scoreString }}</p>
-    <div class="divider"></div>
+    <div class="divider">
+      <span>score</span>
+      <div class="line"></div>
+      <span>round</span>
+    </div>
     <p class="end">{{ roundString }}</p>
   </div>
 </template>
@@ -24,14 +28,28 @@ const roundString = computed(() => roundNumber.value.toLocaleString("en-US"));
   max-width: 30rem;
   margin: 0 auto 0.5rem;
   display: grid;
-  grid-template-columns: 1fr 2px 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: var(--space-sm);
 }
 
 .divider {
-  background-color: var(--color-text);
-  height: 1rem;
+  width: fit-content;
+  justify-self: center;
   align-self: center;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+span {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+.line {
+  height: 2rem;
+  width: 1px;
+  background-color: var(--color-text);
 }
 
 p {

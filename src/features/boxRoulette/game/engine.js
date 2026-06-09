@@ -1,5 +1,5 @@
 /**
- * @typedef {'idle' | 'playing' | 'lost' | 'cashed_out'} GamePhase
+ * @typedef {'idle' | 'playing' | 'revealing' | 'lost' | 'cashed_out'} GamePhase
  *
  * @typedef {Object} Box
  * @property {number} id
@@ -11,6 +11,7 @@
  * @property {number} currentScore
  * @property {Box[]} boxes
  * @property {number} roundNumber
+ * @property {number} selectedBoxId
  */
 
 // private helpers
@@ -19,7 +20,7 @@
  * @returns { number }
  */
 function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
+  return Math.ceil(Math.random() * (max - 1));
 }
 /**
  * @returns { number[] }
@@ -53,13 +54,13 @@ function generateRound() {
     isRevealed: false,
   }));
 }
-// /**
-//  * @param { Box[] }
-//  * @returns { Box[] }
-//  */
-// function revealAllBoxes(boxes) {
-//   return boxes;
-// }
+/**
+ * @param { Box[] } boxes
+ * @returns { Box[] }
+ */
+function revealBoxes(boxes) {
+  return boxes.map((b) => ({ ...b, isRevealed: true }));
+}
 
 // public functions
 /**
@@ -71,6 +72,7 @@ export function createInitialState() {
     currentScore: 0,
     boxes: [],
     roundNumber: 0,
+    selectedBoxId: null,
   };
 }
 /**
@@ -97,26 +99,40 @@ export function selectBox(state, boxId) {
   const box = state.boxes.find((b) => b.id === boxId);
   if (!box || box.isRevealed) return state;
 
-  const updatedBoxes = state.boxes.map((b) =>
-    b.id === boxId ? { ...b, isRevealed: true } : b,
-  );
+  const revealedBoxes = revealBoxes(state.boxes);
 
   if (box.points === 0) {
     return {
       ...state,
       phase: "lost",
-      boxes: updatedBoxes,
+      boxes: revealedBoxes,
+      selectedBoxId: boxId,
     };
   }
 
-  const newScore = state.currentScore + box.points;
+  return {
+    ...state,
+    phase: "revealing",
+    currentScore: state.currentScore + box.points,
+    boxes: revealedBoxes,
+    selectedBoxId: boxId,
+  };
+}
+/**
+ * @param { GameState } state
+ * @returns { GameState }
+ */
+export function advanceRound(state) {
+  if (state.phase !== "revealing") return state;
+
   const newRound = state.roundNumber + 1;
 
   return {
     ...state,
-    currentScore: newScore,
+    phase: "playing",
     boxes: generateRound(),
     roundNumber: newRound,
+    selectedBoxId: null,
   };
 }
 /**
@@ -126,14 +142,19 @@ export function selectBox(state, boxId) {
 export function cashOut(state) {
   if (state.phase !== "playing" || state.currentScore === 0) return state;
 
+  const revealedBoxes = revealBoxes(state.boxes);
+
   return {
     ...state,
     phase: "cashed_out",
+    boxes: revealedBoxes,
+    roundNumber: state.roundNumber - 1,
   };
 }
 /**
  * @returns { GameState }
  */
 export function resetGame() {
-  return createInitialState();
+  const state = createInitialState();
+  return startGame(state);
 }
