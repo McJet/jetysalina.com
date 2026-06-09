@@ -1,6 +1,6 @@
 :root {
   color-scheme: light dark;
-  --font-family-header: "Poppins", sans-serif;
+  --font-family-header: "Hind-Bold", sans-serif;
   --font-family: "Hind", sans-serif;
   --font-size-base: 16px;
 
@@ -38,4 +38,18 @@
 
   background-color: var(--color-bg);
   color: var(--color-text);
+}
+@font-face {
+  font-family: "Hind-Bold";
+  src: url("/features/landing/Hind-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Hind";
+  src: url("/features/landing/Hind-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
