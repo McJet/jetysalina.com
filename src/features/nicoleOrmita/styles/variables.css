@@ -1,0 +1,25 @@
+.view {
+  /* Base */
+  --color-background: #5b3624;
+  --color-surface: #6b432f; /* slightly lighter than background, for cards/panels */
+
+  /* Text */
+  --color-text: #fdfcfa;
+  --color-text-muted: #d8c8bd; /* muted version of text, for secondary info */
+
+  /* UI */
+  --color-border: #7a5341;
+
+  /* Type */
+  --font-display: Didot, "Bodoni MT", "Cormorant Garamond", Georgia, serif;
+  --font-body: Garamond, "EB Garamond", "Palatino Linotype", Georgia, serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-2xl: 3rem; /* 48px */
+  --space-3xl: 5rem; /* 80px */
+}
