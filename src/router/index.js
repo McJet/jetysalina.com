@@ -23,6 +23,16 @@ const router = createRouter({
       },
     },
     {
+      path: "/and-nicoleormita",
+      name: "Jet & Nicole",
+      component: () =>
+        import("@/features/nicoleOrmita/views/nicoleOrmitaView.vue"),
+      meta: {
+        title: "Jet & Nicole",
+        favicon: "/features/nicoleOrmita/jetnicole.svg",
+      },
+    },
+    {
       path: "/test-page",
       name: "test-page",
       component: () => import("@/features/test-page/views/TestPageView.vue"),
