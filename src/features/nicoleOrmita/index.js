@@ -1,2 +1,2 @@
 export { default as NicoleOrmitaView } from './views/nicoleOrmitaView.vue'
-export { project, weddingDate, weddingTimeZone } from './data.js'
+export { project, rsvp, weddingDate, weddingTimeZone } from './data.js'
