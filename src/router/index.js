@@ -1,35 +1,40 @@
 import { createRouter, createWebHistory } from "vue-router";
+import {
+  boxRoulettePage,
+  landingPage,
+  weddingPage,
+} from "@/shared/pageMeta.js";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
+      path: landingPage.route,
       name: "home",
       component: () => import("@/features/landing/views/LandingView.vue"),
       meta: {
-        title: "Jet Ysalina",
-        favicon: "/features/landing/j-square.svg",
+        title: landingPage.title,
+        favicon: landingPage.favicon,
       },
     },
     {
-      path: "/box-roulette",
+      path: boxRoulettePage.route,
       name: "box-roulette",
       component: () =>
         import("@/features/boxRoulette/views/BoxRouletteView.vue"),
       meta: {
-        title: "Box Roulette",
-        favicon: "/features/boxRoulette/box-roulette.svg",
+        title: boxRoulettePage.title,
+        favicon: boxRoulettePage.favicon,
       },
     },
     {
-      path: "/and-nicoleormita",
+      path: weddingPage.route,
       name: "Jet & Nicole",
       component: () =>
         import("@/features/nicoleOrmita/views/nicoleOrmitaView.vue"),
       meta: {
-        title: "Jet & Nicole",
-        favicon: "/features/nicoleOrmita/jetnicole.svg",
+        title: weddingPage.title,
+        favicon: weddingPage.favicon,
       },
     },
     {
@@ -54,12 +59,12 @@ const router = createRouter({
 router.afterEach((to, from, failure) => {
   if (failure) console.error(failure.message);
 
-  document.title = to.meta.title ?? "Jet Ysalina";
+  document.title = to.meta.title ?? landingPage.title;
 
   const iconLinkElement = document.querySelector("link[rel='icon']");
   iconLinkElement?.setAttribute(
     "href",
-    to.meta.favicon ?? "/features/landing/j-square.svg",
+    to.meta.favicon ?? landingPage.favicon,
   );
 });
 
