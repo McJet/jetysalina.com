@@ -37,23 +37,31 @@ const units = computed(() => {
 </script>
 
 <style scoped>
+/* Four equal columns that share whatever width there is, rather than four
+   fixed 4rem columns - at 320px the fixed version needed 304px of content
+   box and only 288px existed, so the row overflowed the screen.
+   The max-width is 4 x 4rem plus 3 x 1rem of gap: the size it settles at
+   once there is room, so nothing changes on a roomier screen. */
 .countdown {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--space-lg) var(--space-xl);
+  flex-wrap: nowrap;
+  gap: clamp(var(--space-sm), 2.5cqi, var(--space-md));
+  width: 100%;
+  max-width: 22rem;
 }
 
 .unit {
   display: grid;
   justify-items: center;
   gap: var(--space-xs);
-  min-width: 4rem;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .value {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 5cqi, 2.75rem);
+  font-size: clamp(1.75rem, 5cqi, 2rem);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -63,5 +71,13 @@ const units = computed(() => {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-text-muted);
+}
+
+/* "seconds" and "minutes" are the widest labels and cannot wrap, so the
+   tracking comes in a little at the sizes where a column is tightest. */
+@container view (width < 380px) {
+  .label {
+    letter-spacing: 0.12em;
+  }
 }
 </style>
