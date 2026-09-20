@@ -18,7 +18,20 @@ function tag(attribute, name, content) {
 function headFor(page) {
   const url = `${SITE_URL}${page.route}`
   const image = `${SITE_URL}${page.image}`
-  return [
+  const head = []
+
+  if (page.background) {
+    // In the markup rather than left to the router, so the colour is already
+    // there on the first paint instead of arriving once the app boots.
+    head.push(
+      `<style>html{background-color:${escapeAttribute(page.background)}}</style>`,
+      // Tints the browser's own chrome to match. On iOS that includes the bar
+      // along the bottom of the window, which is otherwise white.
+      tag('name', 'theme-color', page.background),
+    )
+  }
+
+  return head.concat([
     tag('name', 'description', page.description),
     `<link rel="canonical" href="${escapeAttribute(url)}" />`,
     tag('property', 'og:type', 'website'),
@@ -38,7 +51,7 @@ function headFor(page) {
     tag('name', 'twitter:description', page.description),
     tag('name', 'twitter:image', image),
     tag('name', 'twitter:image:alt', page.imageAlt),
-  ].join('\n    ')
+  ]).join('\n    ')
 }
 
 // Writes one HTML file per page in pageMeta.js, each a copy of the built
@@ -63,11 +76,22 @@ function routeMeta() {
       const baseHtml = index.source
 
       for (const page of pages) {
-        const html = baseHtml
+        let html = baseHtml
           .replace('<title></title>', `<title>${escapeAttribute(page.title)}</title>`)
           .replace('href=""', `href="${escapeAttribute(page.favicon)}"`)
           .replace('</head>', `  ${headFor(page)}
   </head>`)
+
+        // Set on the element rather than in a stylesheet, because the router
+        // drives this same property once the app is running. A rule in a
+        // <style> block would survive a move to another page and leave this
+        // page's colour behind on the next one.
+        if (page.background) {
+          html = html.replace(
+            '<body>',
+            `<body style="background-color: ${escapeAttribute(page.background)}">`,
+          )
+        }
 
         if (html === baseHtml) {
           this.error(`index.html did not contain the markers ${page.route} needs`)

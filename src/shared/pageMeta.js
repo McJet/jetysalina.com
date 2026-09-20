@@ -22,6 +22,12 @@ const weddingDay = weddingDate.toLocaleDateString("en-US", {
 // path in the router.
 export const weddingPage = {
   route: "/and-nicoleormita",
+  // Painted on the document itself, not just on the page's own container, so
+  // that the area a phone shows when you overscroll past the end is brown
+  // rather than the browser's white canvas.
+  //
+  // Must match --color-background in nicoleOrmita/styles/variables.css.
+  background: "#5b3624",
   title: "Jet and Nicole\u2019s Wedding",
   description: `Jet Ysalina and Nicole Ormita are getting married on ${weddingDay}. Save the date.`,
   favicon: "/features/nicoleOrmita/jetnicole.svg",
@@ -35,6 +41,13 @@ export const weddingPage = {
     "Nicole laughing with her hand on Jet\u2019s cheek, her engagement ring in view.",
 };
 
+// `background` is the page's own colour put on the document itself, not just
+// on the element the page draws into. It covers the two places an element's
+// background never reaches: the strip below the view, where the body is taller
+// than the view because the reset asks for 100vh while the views ask for
+// 100dvh, and the area a phone exposes when a scroll is rubber-banded past the
+// end. Both showed as white. The landing page has no entry because its own
+// stylesheet already puts a colour on :root.
 export const landingPage = {
   route: "/",
   title: "Jet Ysalina",
@@ -55,6 +68,7 @@ export const boxRoulettePage = {
   description: "Open boxes, press your luck, cash out before you bust. " +
     `${boxRoulette.summary}`,
   favicon: "/features/boxRoulette/box-roulette.svg",
+  background: "#0c0d06",
   image: "/features/boxRoulette/og-box-roulette.jpg",
   imageWidth: 1200,
   imageHeight: 630,

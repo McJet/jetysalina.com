@@ -25,6 +25,7 @@ const router = createRouter({
       meta: {
         title: boxRoulettePage.title,
         favicon: boxRoulettePage.favicon,
+        background: boxRoulettePage.background,
       },
     },
     {
@@ -35,6 +36,7 @@ const router = createRouter({
       meta: {
         title: weddingPage.title,
         favicon: weddingPage.favicon,
+        background: weddingPage.background,
       },
     },
     {
@@ -60,6 +62,13 @@ router.afterEach((to, from, failure) => {
   if (failure) console.error(failure.message);
 
   document.title = to.meta.title ?? landingPage.title;
+
+  // Set on the document rather than on the page's own element, so it also
+  // covers what the element does not: the gap left under a view that asks for
+  // 100dvh inside a body asking for 100vh, and the overscroll a phone shows
+  // when a scroll is dragged past the end. Cleared when a page has no colour
+  // of its own, which lets the landing page's stylesheet take it back.
+  document.documentElement.style.backgroundColor = to.meta.background ?? "";
 
   const iconLinkElement = document.querySelector("link[rel='icon']");
   iconLinkElement?.setAttribute(
