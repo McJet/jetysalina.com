@@ -18,7 +18,9 @@ function photo({ file, widths, alt, position }) {
     alt,
     position,
     src: `${PHOTO_DIR}/${file}-${widths.at(-1)}.webp`,
-    srcset: widths.map((w) => `${PHOTO_DIR}/${file}-${w}.webp ${w}w`).join(", "),
+    srcset: widths
+      .map((w) => `${PHOTO_DIR}/${file}-${w}.webp ${w}w`)
+      .join(", "),
   };
 }
 
@@ -51,11 +53,14 @@ export const photos = [
 // The ceremony as a fixed instant: 10:00 AM in California.
 // The -07:00 offset is Pacific Daylight Time - if the date ever moves to
 // November through mid-March, change it to -08:00 for Pacific Standard Time.
-export const weddingDate = new Date("2027-07-07T10:00:00-07:00");
+export const weddingDate = new Date("2027-07-07T10:30:00-07:00");
 
 // Used so the displayed date reads the same everywhere, not in the
 // viewer's own time zone.
 export const weddingTimeZone = "America/Los_Angeles";
+
+// Shown under the date on the home page. The full address is on the RSVP page.
+export const weddingLocation = "La Verne, California";
 
 // Everything on the RSVP page is edited here. Each section disappears on its
 // own when left empty, so an unused one can be emptied rather than deleted.
@@ -71,15 +76,15 @@ export const rsvp = {
   events: [
     {
       name: "Ceremony",
-      time: "10:00 AM",
-      venue: "Venue name",
-      address: "Street address, City, State",
+      time: "10:30 AM",
+      venue: "Sierra La Verne Country Club",
+      address: "6300 Country Club Dr, La Verne, CA 91750",
     },
     {
       name: "Reception",
       time: "12:00 PM",
-      venue: "Venue name",
-      address: "Street address, City, State",
+      venue: "Sierra La Verne Country Club",
+      address: "6300 Country Club Dr, La Verne, CA 91750",
     },
   ],
 
@@ -91,8 +96,7 @@ export const rsvp = {
     },
     {
       question: "Can I bring a guest?",
-      answer:
-        "Your invitation lists everyone we have saved a seat for.",
+      answer: "Your invitation lists everyone we have saved a seat for.",
     },
   ],
 };

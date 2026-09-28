@@ -18,6 +18,7 @@
                 <div class="footer">
                     <div class="when">
                         <p class="date">{{ dateString }}</p>
+                        <p class="location">{{ weddingLocation }}</p>
                     </div>
                     <CountdownTimer :target="weddingDate" />
                     <button v-if="invited" type="button" class="rsvp-link" @click="currentPage = 'rsvp'">
@@ -32,13 +33,18 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import CountdownTimer from "../components/CountdownTimer.vue";
 import HeroMarquee from "../components/HeroMarquee.vue";
 import RsvpSection from "../components/RsvpSection.vue";
 import SiteNav from "../components/SiteNav.vue";
-import { photos, weddingDate, weddingTimeZone } from "../data.js";
+import {
+    photos,
+    weddingDate,
+    weddingLocation,
+    weddingTimeZone,
+} from "../data.js";
 
 const route = useRoute();
 
@@ -64,6 +70,13 @@ const leadTitle = computed(() =>
 const leadSub = computed(() =>
     invited.value ? "To the wedding of" : "The wedding of",
 );
+
+// Overrides the title the router set from the route's meta. The router's
+// afterEach runs before this does, on the first visit and on a query change
+// alike, so this has the last word; leaving the page hands it back.
+watchEffect(() => {
+    if (saveTheDate.value) document.title = "Save The Date";
+});
 
 // Single page - the nav swaps sections in place rather than routing.
 const pages = [
@@ -249,5 +262,14 @@ const dateString = weddingDate.toLocaleDateString("en-US", {
     margin: 0;
     font-size: clamp(1.5rem, 4.5cqi, 2.25rem);
     letter-spacing: 0.08em;
+}
+
+/* Muted and small, like the lead-ins, so the date stays the line that leads. */
+.location {
+    margin: 0;
+    font-size: clamp(0.75rem, 1.8cqi, 0.9375rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
 }
 </style>
