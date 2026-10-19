@@ -1,6 +1,6 @@
 <template>
     <div class="view">
-        <SiteNav v-model="currentPage" :pages="pages" />
+        <SiteNav v-if="pages.length > 1" v-model="currentPage" :pages="pages" />
         <HeroMarquee :images="photos" />
         <div class="inner-view">
             <template v-if="currentPage === 'home'">
@@ -13,9 +13,15 @@
                             <span class="lead-sub">and</span>
                             <span class="name"><span class="part">Nicole</span><span class="part">Ormita</span></span>
                         </h1>
+                        <!-- A plain link has no "The wedding of" to lead into
+                             the names, so this line finishes them instead. -->
+                        <p v-if="!saveTheDate" class="lead-sub">Are getting married!</p>
                     </div>
                 </header>
-                <div class="footer">
+                <!-- The date, place and countdown are for guests who were sent
+                     a link; a visitor who finds the page on their own sees
+                     only the names and that they are getting married. -->
+                <div v-if="saveTheDate" class="footer">
                     <div class="when">
                         <p class="date">{{ dateString }}</p>
                         <p class="location">{{ weddingLocation }}</p>
@@ -24,17 +30,17 @@
                     <button v-if="invited" type="button" class="rsvp-link" @click="currentPage = 'rsvp'">
                         RSVP
                     </button>
-                    <p v-else-if="saveTheDate" class="follow">Invitation to follow</p>
+                    <p v-else class="follow">Invitation to follow</p>
                 </div>
             </template>
             <GiftsSection v-else-if="currentPage === 'gifts'" :options="giftOptions" />
-            <RsvpSection v-else />
+            <RsvpSection v-else-if="currentPage === 'rsvp' && invited" />
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref, watch, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import CountdownTimer from "../components/CountdownTimer.vue";
 import GiftsSection from "../components/GiftsSection.vue";
@@ -82,16 +88,24 @@ watchEffect(() => {
 });
 
 // Single page - the nav swaps sections in place rather than routing.
-// The Gifts tab only appears once there is a way to give.
+// The Gifts tab only appears once there is a way to give, and the RSVP tab
+// only on an invitation link. With a single tab left there is nowhere to go,
+// so the nav is not drawn at all.
 const giftOptions = gifts.options.filter(
     (option) => option.handle || option.email,
 );
-const pages = [
+const pages = computed(() => [
     { id: "home", label: "Home" },
     ...(giftOptions.length ? [{ id: "gifts", label: "Gifts" }] : []),
-    { id: "rsvp", label: "RSVP" },
-];
+    ...(invited.value ? [{ id: "rsvp", label: "RSVP" }] : []),
+]);
 const currentPage = ref("home");
+
+// The section survives a query change, so dropping ?rsvp while on the RSVP
+// page would leave it open with no tab for it. Send the guest home instead.
+watch(invited, (isInvited) => {
+    if (!isInvited && currentPage.value === "rsvp") currentPage.value = "home";
+});
 
 const dateString = weddingDate.toLocaleDateString("en-US", {
     month: "long",
