@@ -101,6 +101,26 @@ export const rsvp = {
   ],
 };
 
+// Everything on the Gifts page is edited here. The page is public - it is not
+// behind the RSVP password - so the wording speaks to anyone, attending or not.
+export const gifts = {
+  // One sentence per entry; each gets a line of its own.
+  description: [
+    "Your love and support mean everything to us.",
+    "If you’d like to give a gift, we’re saving for our honeymoon and our first place together so money donations are appreciated.",
+    "Every bit will go towards helping us start this new chapter.",
+  ],
+
+  // Shown in this order. Blank out a handle or email to hide that box; with
+  // both blank the Gifts tab disappears.
+  options: [
+    { app: "venmo", handle: "jether-y" },
+    // Zelle has no payment link, so the box copies the email instead.
+    // `shownAs` is the name Zelle shows the sender, so they know it's us.
+    { app: "zelle", email: "jethercy@gmail.com", shownAs: "Jether Ysalina" },
+  ],
+};
+
 // SHA-256 of the RSVP password, trimmed and lowercased. The hash is stored
 // rather than the password so the password itself is not in the repo.
 //
