@@ -1,8 +1,8 @@
 <template>
     <div class="view">
         <SiteNav v-model="currentPage" :pages="pages" />
-        <HeroMarquee v-if="currentPage === 'home'" :images="photos" />
-        <div class="inner-view" :class="{ 'below-hero': currentPage === 'home' }">
+        <HeroMarquee :images="photos" />
+        <div class="inner-view">
             <template v-if="currentPage === 'home'">
                 <header class="head">
                     <p v-if="saveTheDate" class="lead-title">{{ leadTitle }}</p>
@@ -27,6 +27,7 @@
                     <p v-else-if="saveTheDate" class="follow">Invitation to follow</p>
                 </div>
             </template>
+            <GiftsSection v-else-if="currentPage === 'gifts'" :options="giftOptions" />
             <RsvpSection v-else />
         </div>
     </div>
@@ -36,10 +37,12 @@
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import CountdownTimer from "../components/CountdownTimer.vue";
+import GiftsSection from "../components/GiftsSection.vue";
 import HeroMarquee from "../components/HeroMarquee.vue";
 import RsvpSection from "../components/RsvpSection.vue";
 import SiteNav from "../components/SiteNav.vue";
 import {
+    gifts,
     photos,
     weddingDate,
     weddingLocation,
@@ -79,8 +82,13 @@ watchEffect(() => {
 });
 
 // Single page - the nav swaps sections in place rather than routing.
+// The Gifts tab only appears once there is a way to give.
+const giftOptions = gifts.options.filter(
+    (option) => option.handle || option.email,
+);
 const pages = [
     { id: "home", label: "Home" },
+    ...(giftOptions.length ? [{ id: "gifts", label: "Gifts" }] : []),
     { id: "rsvp", label: "RSVP" },
 ];
 const currentPage = ref("home");
@@ -107,27 +115,22 @@ const dateString = weddingDate.toLocaleDateString("en-US", {
 }
 
 .inner-view {
-    /* Takes the height left over below the nav, so a short section still
-       centres itself in the window rather than clinging to the top. */
+    /* Takes the height left over below the photo strip, but anchors to the
+       top of it rather than centring. Centring only works when the leftover
+       height is worth splitting, and below the strip it is not: the narrower
+       the window, the shorter the strip, so the space left over - and with it
+       the gap under the strip - grows just as the content gets smaller.
+       Anchoring keeps that distance at the padding, whatever the width. */
     flex: 1;
     min-height: 0;
     display: grid;
     justify-items: center;
-    align-content: center;
+    align-content: start;
     width: 100%;
     max-width: 90rem;
     margin: 0 auto;
     gap: var(--space-2xl);
     padding: var(--space-2xl) var(--space-md);
-}
-
-/* Centring only works when the leftover height is worth splitting. Below the
-   photo strip it is not: the narrower the window, the smaller the names and
-   the shorter the strip, so the space left over - and with it the gap under
-   the strip - grows just as the thing it sits above gets smaller. Anchoring
-   to the top instead keeps that distance at the padding, whatever the width. */
-.inner-view.below-hero {
-    align-content: start;
 }
 
 /* "Save the date" stands on its own as the page header, so the gap here is
