@@ -28,6 +28,8 @@ _Avoid_: Payment method
 - An **Invitation** implies the **Save the date**; a guest with an **Invitation** never needs the **Save the date** separately
 - A **Gift** is sent through exactly one **Gift option**
 - **Gift options** are not behind the **RSVP gate**
+- The RSVP page is only reachable from an **Invitation**; a **Save the date** never shows it
+- The wedding date and location are shown only with a **Save the date** or an **Invitation**, never to a visitor who arrives without either
 
 ## Flagged ambiguities
 
