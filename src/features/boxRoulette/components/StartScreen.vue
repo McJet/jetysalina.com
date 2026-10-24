@@ -1,6 +1,10 @@
 <template>
-  <button @click="handleStartClick">
-    <span>START</span>
+  <p v-if="store.unavailable" class="unavailable">
+    Box Roulette is unavailable right now. Try again in a little while.
+  </p>
+  <p v-else-if="store.notice" class="unavailable">{{ store.notice }}</p>
+  <button :disabled="store.busy" @click="handleStartClick">
+    <span>{{ store.unavailable ? "TRY AGAIN" : "START" }}</span>
   </button>
 </template>
 
@@ -40,5 +44,17 @@ button:hover {
   background-color: var(--color-button-hover);
   filter: drop-shadow(0 0 1rem var(--color-button));
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.unavailable {
+  max-width: 30rem;
+  margin: var(--space-md) auto 0;
+  color: var(--color-text-muted);
+  text-align: center;
 }
 </style>

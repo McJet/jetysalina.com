@@ -76,5 +76,6 @@ _Avoid_: Local leaderboard (the old device-only board, which no longer exists)
 - Only a finished, unowned guest **Run** can be **Claimed**, and only once
 - A **Player** has exactly one **Display name**; changing it changes how all their past runs are shown
 - The same **Player** may appear on the **Global leaderboard** more than once
+- Someone logged in without a **Display name** plays as a **Guest**; choosing a name **Claims** the run they just finished
 - A **Run** counts as the **Player's** if they are logged in when it finishes, even if they logged in partway through; a guest run finished before logging in becomes theirs only by **Claim**
 - Deleting an account deletes the **Player's** runs; they leave every **Leaderboard**

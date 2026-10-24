@@ -28,7 +28,8 @@
       <p v-if="nameError" class="error">{{ nameError }}</p>
       <div v-if="editing" class="row links">
         <button type="button" @click="editing = false">Cancel</button>
-        <button type="button" class="danger" @click="confirmDelete">Delete account</button>
+        <!-- Hidden mid-run: the run belongs to the account, so it would end with it. -->
+        <button v-if="!game.inRun" type="button" class="danger" @click="confirmDelete">Delete account</button>
       </div>
     </form>
 
@@ -36,7 +37,8 @@
       <p>Playing as <strong>{{ account.displayName }}</strong></p>
       <div class="row links">
         <button type="button" @click="startEditing">Change name</button>
-        <button type="button" @click="account.logout()">Log out</button>
+        <!-- Hidden mid-run: a logged-out browser can't act on the player's run. -->
+        <button v-if="!game.inRun" type="button" @click="account.logout()">Log out</button>
       </div>
     </div>
   </div>
@@ -46,8 +48,10 @@
 import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useAccountStore, LOGIN_URL } from "@/shared/stores/useAccountStore.js";
+import { useGameStore } from "../stores/useGameStore.js";
 
 const account = useAccountStore();
+const game = useGameStore();
 const editing = ref(false);
 const nameInput = ref("");
 const nameError = ref(null);
