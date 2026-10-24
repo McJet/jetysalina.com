@@ -13,6 +13,9 @@
       "migrations_dir": "migrations",
     },
   ],
+  "vars": {
+    "GOOGLE_CLIENT_ID": "84218594600-up9ag2a248n8i7pigf8nmthttd08hrms.apps.googleusercontent.com",
+  },
 
   "env": {
     "preview": {
@@ -25,6 +28,9 @@
           "migrations_dir": "migrations",
         },
       ],
+      "vars": {
+        "GOOGLE_CLIENT_ID": "84218594600-l3o1iq3vd4hec0e6r96ajgg2scng0tf5.apps.googleusercontent.com",
+      },
     },
   },
 }

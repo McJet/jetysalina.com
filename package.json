@@ -10,6 +10,7 @@
     "dev:api": "wrangler pages dev"
   },
   "dependencies": {
+    "arctic": "^3.7.0",
     "dayjs": "^1.11.21",
     "lucide-vue-next": "^1.0.0",
     "pinia": "^3.0.4",
