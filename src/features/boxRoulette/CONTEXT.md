@@ -22,7 +22,7 @@ _Avoid_: Game (ambiguous with the app itself), session, attempt
 Someone playing without logging in. Their runs count on no **Leaderboard** unless they log in and **Claim** them.
 
 **Claim**:
-A **Player** taking ownership of a finished guest **Run** they just played, by logging in right after it ends.
+A **Player** taking ownership of the finished guest **Runs** played on the same device, by logging in (or choosing a **Display name**) within about a day of playing them. All of that device's claimable runs are claimed at once, including any another person played there as a guest.
 
 **Open run**:
 A **Run** that has started and not yet ended. A player has at most one; coming back to the game resumes it.
@@ -76,6 +76,6 @@ _Avoid_: Local leaderboard (the old device-only board, which no longer exists)
 - Only a finished, unowned guest **Run** can be **Claimed**, and only once
 - A **Player** has exactly one **Display name**; changing it changes how all their past runs are shown
 - The same **Player** may appear on the **Global leaderboard** more than once
-- Someone logged in without a **Display name** plays as a **Guest**; choosing a name **Claims** the run they just finished
+- Someone logged in without a **Display name** plays as a **Guest**; choosing a name **Claims** the runs they finished
 - A **Run** counts as the **Player's** if they are logged in when it finishes, even if they logged in partway through; a guest run finished before logging in becomes theirs only by **Claim**
 - Deleting an account deletes the **Player's** runs; they leave every **Leaderboard**

@@ -37,7 +37,7 @@ onMounted(() => store.resume())
 watch(
   () => account.status,
   (status) => {
-    if (status === 'ready') store.claimFinishedRun()
+    if (status === 'ready') store.claimFinishedRuns()
   },
   { immediate: true },
 )

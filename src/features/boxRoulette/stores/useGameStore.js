@@ -25,10 +25,31 @@ const MAX_ENTRIES = 10;
 // run is theirs, so losing either key loses the run.
 // The open run this browser is playing, so a reload can resume it.
 const RUN_ID_KEY = "boxRoulette_runId";
-// A finished guest run this browser can still claim after logging in.
-// Kept apart from RUN_ID_KEY: claiming must never be able to touch (or
-// forget) the open run, whatever order page-load requests finish in.
-const CLAIMABLE_RUN_KEY = "boxRoulette_claimableRunId";
+// Finished guest runs this browser can still claim after logging in, as a
+// JSON array of IDs, newest last. Kept apart from RUN_ID_KEY: claiming must
+// never be able to touch (or forget) the open run, whatever order page-load
+// requests finish in.
+const CLAIMABLE_RUNS_KEY = "boxRoulette_claimableRunIds";
+// The server deletes unclaimed guest runs after a day, so this only needs to
+// cover a day of play. Matches MAX_CLAIM in functions/api/runs/claim.js.
+const MAX_CLAIMABLE = 50;
+
+function loadClaimable() {
+  try {
+    const ids = JSON.parse(localStorage.getItem(CLAIMABLE_RUNS_KEY));
+    return Array.isArray(ids) ? ids : [];
+  } catch {
+    return [];
+  }
+}
+function addClaimable(id) {
+  const ids = loadClaimable().filter((existing) => existing !== id);
+  ids.push(id);
+  localStorage.setItem(
+    CLAIMABLE_RUNS_KEY,
+    JSON.stringify(ids.slice(-MAX_CLAIMABLE)),
+  );
+}
 const BOX_COUNT = 4;
 
 function saveLeaderboard(entries) {
@@ -250,14 +271,15 @@ export const useGameStore = defineStore("game", {
 
     // Called once a player has a display name: takes ownership of the guest
     // run this browser just finished, if there is one.
-    async claimFinishedRun() {
-      const id = localStorage.getItem(CLAIMABLE_RUN_KEY);
-      if (!id) return;
+    async claimFinishedRuns() {
+      const ids = loadClaimable();
+      if (ids.length === 0) return;
       try {
-        // 204 claimed; 409 already owned or gone. Either way this browser
-        // has nothing left to do with it.
-        const { status } = await api("POST", `/api/runs/${id}/claim`);
-        if (status === 204 || status === 409) localStorage.removeItem(CLAIMABLE_RUN_KEY);
+        // The server claims whichever of these still qualify and ignores the
+        // rest (already owned, or deleted after a day). Either way this
+        // browser has nothing left to do with any of them.
+        const { status } = await api("POST", "/api/runs/claim", { ids });
+        if (status === 200 || status === 400) localStorage.removeItem(CLAIMABLE_RUNS_KEY);
       } catch (error) {
         console.error(error);
       }
@@ -286,9 +308,7 @@ export const useGameStore = defineStore("game", {
       // Nothing left to resume. An unowned run that ended by cash out or bust
       // moves to the claimable slot; an owned or abandoned one is done.
       localStorage.removeItem(RUN_ID_KEY);
-      if (!run.owned && run.status !== "abandoned") {
-        localStorage.setItem(CLAIMABLE_RUN_KEY, run.id);
-      }
+      if (!run.owned && run.status !== "abandoned") addClaimable(run.id);
     },
   },
 });
