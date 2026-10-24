@@ -10,4 +10,4 @@ Uses the default labels: needs-triage, needs-info, ready-for-agent, ready-for-hu
 
 ### Domain docs
 
-Single-context: one `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+Multi-context: `CONTEXT-MAP.md` at the repo root points to one `CONTEXT.md` per feature, each with its own `docs/adr/`. See `docs/agents/domain.md`.
