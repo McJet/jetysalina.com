@@ -12,8 +12,11 @@ import { useGameStore } from "../stores/useGameStore";
 const store = useGameStore();
 // const { } = storeToRefs(store);
 
-function handleBoxClick(boxId) {
-  store.selectBox(boxId);
+async function handleBoxClick(boxId) {
+  // Wait for the server's answer before starting the reveal pause, or a slow
+  // response would eat into the time the player gets to see the boxes.
+  const revealed = await store.selectBox(boxId);
+  if (!revealed) return;
 
   setTimeout(() => {
     store.advanceRound();

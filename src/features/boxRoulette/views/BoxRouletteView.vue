@@ -23,8 +23,24 @@ import LostScreen from '../components/LostScreen.vue';
 import CashOutScreen from '../components/CashOutScreen.vue';
 import LeaderboardScreen from '../components/LeaderboardScreen.vue';
 import AccountPanel from '../components/AccountPanel.vue';
+import { onMounted, watch } from 'vue';
+import { useAccountStore } from '@/shared/stores/useAccountStore.js';
 
 const store = useGameStore()
+const account = useAccountStore()
+
+onMounted(() => store.resume())
+
+// 'ready' means logged in with a display name: the moment a guest run this
+// browser just finished can become theirs. Covers both coming back from
+// login and choosing a name for the first time.
+watch(
+  () => account.status,
+  (status) => {
+    if (status === 'ready') store.claimFinishedRuns()
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped>

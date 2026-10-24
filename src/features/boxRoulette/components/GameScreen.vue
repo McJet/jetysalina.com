@@ -1,7 +1,10 @@
 <template>
   <ScoreDisplay />
   <BoxGrid />
-  <button v-if="isPlaying" @click="handleCashOutClick">
+  <p v-if="store.unavailable" class="unavailable">
+    Couldn't reach the server. Pick again to retry.
+  </p>
+  <button v-if="isPlaying" :disabled="!store.canCashOut || store.busy" @click="handleCashOutClick">
     <span>CASH OUT</span>
   </button>
 </template>
@@ -46,5 +49,20 @@ button:hover {
   background-color: var(--color-button-hover);
   filter: drop-shadow(0 0 1rem var(--color-button));
   cursor: pointer;
+}
+
+button:disabled,
+button:disabled:hover {
+  opacity: 0.5;
+  background-color: var(--color-button);
+  filter: none;
+  cursor: default;
+}
+
+.unavailable {
+  max-width: 30rem;
+  margin: var(--space-sm) auto 0;
+  color: var(--color-text-muted);
+  text-align: center;
 }
 </style>
