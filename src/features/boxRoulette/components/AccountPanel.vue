@@ -3,6 +3,7 @@
     <template v-if="account.status === 'guest'">
       <p>Log in to save your runs and get on the leaderboard.</p>
       <a class="primary" :href="LOGIN_URL">Log in with Google</a>
+      <RouterLink class="muted small" to="/privacy">Privacy policy</RouterLink>
     </template>
 
     <template v-else-if="account.status === 'error'">
@@ -43,6 +44,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { RouterLink } from "vue-router";
 import { useAccountStore, LOGIN_URL } from "@/shared/stores/useAccountStore.js";
 
 const account = useAccountStore();
@@ -163,6 +165,11 @@ input {
 
 .muted {
   color: var(--color-text-muted);
+}
+
+.small {
+  font-size: 0.75rem;
+  text-align: center;
 }
 
 .error {

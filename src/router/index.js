@@ -40,6 +40,14 @@ const router = createRouter({
       },
     },
     {
+      path: "/privacy",
+      name: "privacy",
+      component: () => import("@/shared/components/PrivacyView.vue"),
+      meta: {
+        title: "Privacy Policy",
+      },
+    },
+    {
       path: "/test-page",
       name: "test-page",
       component: () => import("@/features/test-page/views/TestPageView.vue"),
