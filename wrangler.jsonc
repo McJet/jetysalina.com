@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "jetysalina-com",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-23",
+
+  // Top level: used by production AND by local dev (`wrangler pages dev`)
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "jetysalina",
+      "database_id": "4b1cc456-51ef-4b44-8629-890737982841",
+      "migrations_dir": "migrations",
+    },
+  ],
+
+  "env": {
+    "preview": {
+      // Preview deployments (every non-main branch) use their own database
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "jetysalina-preview",
+          "database_id": "5b3650cf-42c7-4e4e-bb22-4c37f07942dd",
+          "migrations_dir": "migrations",
+        },
+      ],
+    },
+  },
+}
