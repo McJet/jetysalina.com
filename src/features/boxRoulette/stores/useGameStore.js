@@ -19,8 +19,6 @@ import { defineStore } from "pinia";
  * @property {boolean} owned
  */
 
-const STORAGE_KEY = "boxRoulette_leaderboard";
-const MAX_ENTRIES = 10;
 // Two keys, one meaning each. For a guest, a run's ID is the only proof the
 // run is theirs, so losing either key loses the run.
 // The open run this browser is playing, so a reload can resume it.
@@ -52,12 +50,12 @@ function addClaimable(id) {
 }
 const BOX_COUNT = 4;
 
-function saveLeaderboard(entries) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-}
-function loadLeaderboard() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  return raw ? JSON.parse(raw) : [];
+// The old device-only leaderboard, replaced by the Personal leaderboard. Its
+// entries never had an owner, so they're dropped rather than imported.
+try {
+  localStorage.removeItem("boxRoulette_leaderboard");
+} catch {
+  // Storage blocked (private mode): nothing to clean up.
 }
 
 function hiddenBoxes() {
@@ -106,7 +104,8 @@ export const useGameStore = defineStore("game", {
       unavailable: false,
       // Something the player should know when they land back on Start.
       notice: null,
-      leaderboard: loadLeaderboard(),
+      // Goes up each time a run ends, so leaderboards know to refresh.
+      runsFinished: 0,
     };
   },
   getters: {
@@ -150,6 +149,12 @@ export const useGameStore = defineStore("game", {
       this.busy = true;
       try {
         const { status, data } = await api("POST", "/api/runs");
+        // Too many requests. Nothing sends this yet; it is here for when starting
+        // runs gets rate-limited (see docs/adr/0001-server-runs-the-game.md).
+        if (status === 429) {
+          this.notice = "Slow down a moment, then try again.";
+          return;
+        }
         if (status !== 201) throw new Error(`POST /api/runs returned ${status}`);
         this.unavailable = false;
         this.notice = null;
@@ -235,17 +240,6 @@ export const useGameStore = defineStore("game", {
           roundNumber: run.roundsSurvived,
         };
         this.finishRun(run);
-
-        // The device-only board. Goes away with the Personal leaderboard.
-        const scoreEntry = {
-          score: run.score,
-          rounds: run.roundsSurvived,
-          date: new Date().toISOString(),
-        };
-        const allScores = [...this.leaderboard, scoreEntry];
-        allScores.sort((a, b) => b.score - a.score);
-        this.leaderboard = allScores.slice(0, MAX_ENTRIES);
-        saveLeaderboard(this.leaderboard);
       } catch (error) {
         console.error(error);
         this.unavailable = true;
@@ -278,8 +272,10 @@ export const useGameStore = defineStore("game", {
         // The server claims whichever of these still qualify and ignores the
         // rest (already owned, or deleted after a day). Either way this
         // browser has nothing left to do with any of them.
-        const { status } = await api("POST", "/api/runs/claim", { ids });
+        const { status, data } = await api("POST", "/api/runs/claim", { ids });
         if (status === 200 || status === 400) localStorage.removeItem(CLAIMABLE_RUNS_KEY);
+        // Claimed runs just joined the leaderboards
+        if (data?.claimed > 0) this.runsFinished++;
       } catch (error) {
         console.error(error);
       }
@@ -309,6 +305,7 @@ export const useGameStore = defineStore("game", {
       // moves to the claimable slot; an owned or abandoned one is done.
       localStorage.removeItem(RUN_ID_KEY);
       if (!run.owned && run.status !== "abandoned") addClaimable(run.id);
+      this.runsFinished++;
     },
   },
 });
