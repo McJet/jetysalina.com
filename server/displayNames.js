@@ -9,7 +9,6 @@ const BLOCKED = [
   // Names that could pass for the site speaking
   "admin",
   "moderator",
-  "jetysalina",
 ];
 
 // Returns an error message for the player, or null if the name is allowed.

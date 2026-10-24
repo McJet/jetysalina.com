@@ -8,6 +8,7 @@
         <CashOutScreen v-else-if="store.isCashOut" />
       </div>
       <div class="leaderboard-container">
+        <AccountPanel />
         <LeaderboardScreen />
       </div>
     </div>
@@ -21,6 +22,7 @@ import GameScreen from '../components/GameScreen.vue';
 import LostScreen from '../components/LostScreen.vue';
 import CashOutScreen from '../components/CashOutScreen.vue';
 import LeaderboardScreen from '../components/LeaderboardScreen.vue';
+import AccountPanel from '../components/AccountPanel.vue';
 
 const store = useGameStore()
 </script>
